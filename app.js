@@ -44,16 +44,16 @@ document.addEventListener('DOMContentLoaded', () => {
 // 2. CONSTANTES E CONFIGURAÇÃO DAS MATÉRIAS
 // ==========================================
 const SUBJECTS_CONFIG = [
-  { id: 'NR-32', name: 'NR-32 (Serviços de Saúde)', count: 50, color: '#006D77' },
-  { id: 'NR-01', name: 'NR-01 (GRO / PGR)', count: 20, color: '#2A9D8F' },
-  { id: 'NR-06', name: 'NR-06 (EPI)', count: 15, color: '#457B9D' },
-  { id: 'NR-07', name: 'NR-07 (PCMSO)', count: 15, color: '#1D3557' },
-  { id: 'NR-15', name: 'NR-15 (Insalubridade)', count: 15, color: '#E76F51' },
-  { id: 'NR-17', name: 'NR-17 (Ergonomia)', count: 15, color: '#F4A261' },
-  { id: 'Legislação SUS', name: 'Legislação do SUS', count: 20, color: '#3B82F6' },
-  { id: 'Resíduos de Saúde (RDC 222)', name: 'Resíduos de Saúde (RDC 222)', count: 20, color: '#10B981' },
-  { id: 'Legislação Previdenciária', name: 'Legislação Previdenciária', count: 15, color: '#8B5CF6' },
-  { id: 'Português', name: 'Língua Portuguesa', count: 15, color: '#EC4899' }
+  { id: 'NR-32', name: 'NR-32 (Serviços de Saúde)', count: 200, color: '#006D77' },
+  { id: 'NR-01', name: 'NR-01 (GRO / PGR)', count: 70, color: '#2A9D8F' },
+  { id: 'NR-06', name: 'NR-06 (EPI)', count: 45, color: '#457B9D' },
+  { id: 'NR-07', name: 'NR-07 (PCMSO)', count: 55, color: '#1D3557' },
+  { id: 'NR-15', name: 'NR-15 (Insalubridade)', count: 55, color: '#E76F51' },
+  { id: 'NR-17', name: 'NR-17 (Ergonomia)', count: 45, color: '#F4A261' },
+  { id: 'Legislação SUS', name: 'Legislação do SUS', count: 100, color: '#3B82F6' },
+  { id: 'Resíduos de Saúde (RDC 222)', name: 'Resíduos de Saúde (RDC 222)', count: 50, color: '#10B981' },
+  { id: 'Legislação Previdenciária', name: 'Legislação Previdenciária', count: 45, color: '#8B5CF6' },
+  { id: 'Português', name: 'Língua Portuguesa', count: 35, color: '#EC4899' }
 ];
 
 // ==========================================
@@ -232,8 +232,15 @@ function renderHomeDashboard() {
 // 7. MOTOR DE SIMULADOS (PROVA REAL & ESTUDO)
 // ==========================================
 function getAllQuestions() {
+  if (typeof questions !== 'undefined' && Array.isArray(questions)) {
+    return questions;
+  }
   if (typeof QUESTIONS_DATA !== 'undefined' && Array.isArray(QUESTIONS_DATA)) {
     return QUESTIONS_DATA;
+  }
+  if (typeof window !== 'undefined') {
+    if (window.questions && Array.isArray(window.questions)) return window.questions;
+    if (window.QUESTIONS_DATA && Array.isArray(window.QUESTIONS_DATA)) return window.QUESTIONS_DATA;
   }
   return [];
 }
