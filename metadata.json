@@ -1,0 +1,6 @@
+{
+  "name": "Simulado TST FHCGV",
+  "description": "Preparatório completo para Técnico em Segurança do Trabalho da FHCGV/PA com simulados estilo Consulplan, caderno de erros e análise de desempenho.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

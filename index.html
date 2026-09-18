@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Simulado TST - FHCGV/PA</title>
+  
+  <!-- Metas PWA & Mobile -->
+  <meta name="description" content="Aplicativo PWA de simulados para o concurso de Técnico em Segurança do Trabalho da Fundação Hospitalar Gaspar Vianna (FHCGV/PA). 200 questões comentadas e fundamentadas.">
+  <meta name="theme-color" content="#006D77">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Simulado TST">
+  
+  <!-- Favicon e Ícones PWA (Caminhos Relativos) -->
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="manifest" href="./manifest.json">
+  
+  <!-- Estilos CSS (Caminho Relativo) -->
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+  <!-- CABEÇALHO DO APLICATIVO -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand" id="brand-logo" role="button" tabindex="0" title="Ir para a página inicial">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v20M2 12h20"></path>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>Simulado TST</h1>
+          <span class="badge-fhcgv">FHCGV / PA</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="btn-install-pwa" class="btn-header-action" title="Instalar Aplicativo no Dispositivo" style="display: none;">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span class="desktop-only">Instalar</span>
+        </button>
+
+        <button id="btn-theme-toggle" class="btn-icon" title="Alternar tema claro/escuro" aria-label="Alternar tema claro/escuro">
+          <svg id="theme-icon-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAVEGAÇÃO PRINCIPAL (TABS SUPERIOR / INFERIOR NO MOBILE) -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <button class="nav-item active" data-view="home">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <span>Início</span>
+      </button>
+
+      <button class="nav-item" data-view="simulados">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        <span>Simulados</span>
+      </button>
+
+      <button class="nav-item" data-view="materias">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        <span>Por Matéria</span>
+      </button>
+
+      <button class="nav-item" data-view="erros">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="15" y1="9" x2="9" y2="15"></line>
+          <line x1="9" y1="9" x2="15" y2="15"></line>
+        </svg>
+        <span>Caderno de Erros</span>
+        <span class="badge-count" id="badge-errors-count" style="display: none;">0</span>
+      </button>
+
+      <button class="nav-item" data-view="desempenho">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="20" x2="18" y2="10"></line>
+          <line x1="12" y1="20" x2="12" y2="4"></line>
+          <line x1="6" y1="20" x2="6" y2="14"></line>
+        </svg>
+        <span>Desempenho</span>
+      </button>
+
+      <button class="nav-item" data-view="busca">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <span>Buscar</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- CONTAINER DE TELAS / VIEWS -->
+  <main class="app-main">
+
+    <!-- 1. TELA INICIAL (DASHBOARD) -->
+    <section id="view-home" class="app-view active">
+      <!-- Banner Informativo -->
+      <div class="hero-card">
+        <div class="hero-content">
+          <span class="hero-tag">PREPARATÓRIO OFICIAL</span>
+          <h2>Concurso FHCGV / PA</h2>
+          <p class="hero-desc">Técnico em Segurança do Trabalho • 200 Questões gabaritadas e comentadas no padrão da banca Instituto Consulplan.</p>
+          <div class="hero-meta">
+            <span class="meta-pill"><span class="dot-green"></span> 100% Offline (PWA)</span>
+            <span class="meta-pill">NR-32 com 50 Questões</span>
+            <span class="meta-pill">Legislação SUS & RDC 222</span>
+          </div>
+        </div>
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-lg" id="btn-quick-full-exam">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            Iniciar Simulado Completo (50Q)
+          </button>
+          <button class="btn btn-secondary" id="btn-quick-fast-exam">
+            Simulado Expresso (20Q)
+          </button>
+        </div>
+      </div>
+
+      <!-- Resumo Rápido de Estatísticas -->
+      <div class="stats-overview-grid">
+        <div class="stat-card">
+          <div class="stat-icon icon-teal">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Total Respondidas</span>
+            <h3 class="stat-value" id="home-stat-answered">0</h3>
+            <span class="stat-sub">de 200 questões</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon icon-green">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Aproveitamento</span>
+            <h3 class="stat-value" id="home-stat-accuracy">0%</h3>
+            <span class="stat-sub" id="home-stat-correct-count">0 acertos</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon icon-orange">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Caderno de Erros</span>
+            <h3 class="stat-value" id="home-stat-errors">0</h3>
+            <span class="stat-sub">questões para revisar</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon icon-purple">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Simulados Realizados</span>
+            <h3 class="stat-value" id="home-stat-exams-count">0</h3>
+            <span class="stat-sub">provas finalizadas</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Distribuição das Matérias -->
+      <div class="section-header">
+        <div>
+          <h3>Grade Temática do Edital</h3>
+          <p class="section-sub">Escolha uma matéria para praticar no modo estudo com gabarito imediato</p>
+        </div>
+      </div>
+
+      <div class="subjects-grid" id="home-subjects-grid">
+        <!-- Renderizado dinamicamente via app.js -->
+      </div>
+    </section>
+
+    <!-- 2. TELA DE SIMULADOS (SELEÇÃO) -->
+    <section id="view-simulados" class="app-view">
+      <div class="view-title-block">
+        <h2>Simulados de Prova</h2>
+        <p>Escolha o formato de prova desejado. O tempo e o cartão de respostas simulam a prova real da banca Consulplan.</p>
+      </div>
+
+      <div class="exam-types-grid">
+        <div class="exam-card highlight">
+          <div class="exam-badge">FORMATO EDITAL OFICIAL</div>
+          <h3>Simulado Geral FHCGV</h3>
+          <p class="exam-desc">50 questões sorteadas respeitando o peso oficial do edital (20 Específicas NR-32/NRs/RDC 222 + 10 SUS + 10 Português + 10 Legislação).</p>
+          <ul class="exam-features">
+            <li>⏱ 3 horas de duração (com cronômetro regressivo)</li>
+            <li>📝 Cartão de respostas interativo</li>
+            <li>📊 Diagnóstico completo de pontuação e corte</li>
+          </ul>
+          <button class="btn btn-primary btn-block" onclick="startSimulado(50, 'Simulado Geral FHCGV (50Q)')">
+            Iniciar Simulado de 50 Questões
+          </button>
+        </div>
+
+        <div class="exam-card">
+          <div class="exam-badge badge-secondary">TREINO RÁPIDO</div>
+          <h3>Simulado Expresso</h3>
+          <p class="exam-desc">20 questões balanceadas entre todas as matérias para um treino diário ágil sem pressão excessiva.</p>
+          <ul class="exam-features">
+            <li>⏱ 1 hora de duração</li>
+            <li>⚡ Ideal para revisar no trajeto ou intervalos</li>
+            <li>📈 Atualiza suas estatísticas de aproveitamento</li>
+          </ul>
+          <button class="btn btn-outline btn-block" onclick="startSimulado(20, 'Simulado Expresso (20Q)')">
+            Iniciar Simulado de 20 Questões
+          </button>
+        </div>
+
+        <div class="exam-card">
+          <div class="exam-badge badge-nr32">FOCO MÁXIMO</div>
+          <h3>Desafio Intensivo NR-32</h3>
+          <p class="exam-desc">30 questões exclusivas sobre a Norma Regulamentadora nº 32 (Serviços de Saúde e Hospitais).</p>
+          <ul class="exam-features">
+            <li>⏱ 1 hora e 30 minutos</li>
+            <li>💉 Perfurocortantes, quimio, radiação, vacinas, lavanderia</li>
+            <li>🎯 O tema de maior peso na prova da FHCGV</li>
+          </ul>
+          <button class="btn btn-outline btn-block" onclick="startSimuladoSubject('NR-32', 30, 'Simulado Focado NR-32 (30Q)')">
+            Iniciar Desafio NR-32
+          </button>
+        </div>
+
+        <div class="exam-card">
+          <div class="exam-badge badge-errors">RECUPERAÇÃO</div>
+          <h3>Simulado do Caderno de Erros</h3>
+          <p class="exam-desc">Gera um simulado exclusivo com as questões que você já errou em tentativas anteriores.</p>
+          <ul class="exam-features">
+            <li>⏱ Sem limite rígido de tempo</li>
+            <li>🔁 Elimina suas fraquezas conceituais</li>
+            <li>💡 Questões acertadas podem ser removidas do caderno</li>
+          </ul>
+          <button class="btn btn-outline btn-block" id="btn-start-errors-exam">
+            Iniciar Simulado de Erros (<span id="errors-exam-count">0</span>)
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. TELA DE EXECUÇÃO DO SIMULADO (PROVA ATIVA) -->
+    <section id="view-exam-runner" class="app-view">
+      <div class="exam-runner-header">
+        <div class="runner-left">
+          <span class="exam-title-pill" id="active-exam-title">Simulado Geral</span>
+          <span class="question-tracker">Questão <strong id="exam-q-current">1</strong> de <span id="exam-q-total">50</span></span>
+        </div>
+        <div class="runner-center">
+          <div class="timer-badge" id="exam-timer" title="Tempo restante">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span id="timer-display">03:00:00</span>
+          </div>
+          <button class="btn-icon btn-sm" id="btn-timer-pause" title="Pausar / Retomar cronômetro">
+            <svg id="icon-pause" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+          </button>
+        </div>
+        <div class="runner-right">
+          <button class="btn btn-secondary btn-sm" id="btn-open-answer-card">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            <span>Cartão Resposta</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Barra de progresso linear -->
+      <div class="exam-progress-bar">
+        <div class="progress-fill" id="exam-progress-fill" style="width: 2%;"></div>
+      </div>
+
+      <!-- Card Central da Questão -->
+      <div class="question-box">
+        <div class="question-header">
+          <div class="question-tags">
+            <span class="tag-materia" id="exam-materia-tag">NR-32</span>
+            <span class="tag-diff" id="exam-diff-tag">Média</span>
+          </div>
+          <button class="btn-flag-toggle" id="btn-flag-question" title="Marcar questão para revisão posterior">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+            <span id="flag-text">Dúvida</span>
+          </button>
+        </div>
+
+        <div class="question-statement" id="exam-statement">
+          Texto do enunciado da questão...
+        </div>
+
+        <!-- Lista de Alternativas A, B, C, D, E -->
+        <div class="alternatives-list" id="exam-alternatives">
+          <!-- Renderizado via app.js -->
+        </div>
+
+        <!-- Feedback imediato (Apenas se estiver no modo estudo / por matéria) -->
+        <div class="study-feedback-box" id="study-feedback-box" style="display: none;">
+          <div class="feedback-status" id="feedback-status-msg"></div>
+          <div class="feedback-comment" id="feedback-comment-text"></div>
+          <div class="feedback-ref" id="feedback-ref-text"></div>
+        </div>
+      </div>
+
+      <!-- Barra de Ações Inferior -->
+      <div class="exam-nav-bar">
+        <button class="btn btn-secondary" id="btn-exam-prev">
+          ← Anterior
+        </button>
+
+        <div class="exam-nav-center">
+          <button class="btn btn-primary" id="btn-check-study-answer" style="display: none;">
+            Confirmar Resposta
+          </button>
+        </div>
+
+        <div class="exam-nav-right">
+          <button class="btn btn-secondary" id="btn-exam-next">
+            Próxima →
+          </button>
+          <button class="btn btn-success" id="btn-exam-finish">
+            Finalizar Prova
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. TELA DE RESULTADO DO SIMULADO -->
+    <section id="view-exam-result" class="app-view">
+      <div class="result-hero" id="result-hero-box">
+        <div class="result-badge-status" id="result-status-badge">APROVADO</div>
+        <h2 id="result-score-title">Sua Pontuação: 42 / 50 (84%)</h2>
+        <p class="result-sub" id="result-message">Excelente desempenho! Você superou com folga a nota de corte recomendada para a FHCGV.</p>
+
+        <div class="result-summary-metrics">
+          <div class="metric-item">
+            <span class="metric-val text-green" id="res-correct-count">42</span>
+            <span class="metric-lbl">Acertos</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-val text-red" id="res-wrong-count">8</span>
+            <span class="metric-lbl">Erros</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-val" id="res-time-spent">01h 42m</span>
+            <span class="metric-lbl">Tempo Gasto</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-val" id="res-accuracy-rate">84%</span>
+            <span class="metric-lbl">Aproveitamento</span>
+          </div>
+        </div>
+
+        <div class="result-actions-top">
+          <button class="btn btn-primary" id="btn-res-new-exam">
+            Fazer Novo Simulado
+          </button>
+          <button class="btn btn-secondary" id="btn-res-add-errors" title="Salvar todas as erradas no Caderno de Erros">
+            Adicionar Erros ao Caderno
+          </button>
+          <button class="btn btn-outline" onclick="navigateTo('home')">
+            Voltar ao Início
+          </button>
+        </div>
+      </div>
+
+      <!-- Análise por Disciplina neste Simulado -->
+      <div class="section-card">
+        <h3>Desempenho por Matéria no Simulado</h3>
+        <div class="subject-breakdown-list" id="result-subject-breakdown">
+          <!-- Renderizado via app.js -->
+        </div>
+      </div>
+
+      <!-- Revisão Questão a Questão -->
+      <div class="section-card">
+        <div class="review-header-filter">
+          <h3>Revisão Detalhada das Questões</h3>
+          <div class="filter-pills">
+            <button class="pill-btn active" data-filter="all">Todas (<span id="rev-filter-all">50</span>)</button>
+            <button class="pill-btn" data-filter="wrong">Apenas Erros (<span id="rev-filter-wrong">8</span>)</button>
+            <button class="pill-btn" data-filter="correct">Apenas Acertos (<span id="rev-filter-correct">42</span>)</button>
+            <button class="pill-btn" data-filter="flagged">Marcadas com Dúvida (<span id="rev-filter-flagged">0</span>)</button>
+          </div>
+        </div>
+
+        <div class="review-questions-list" id="result-review-list">
+          <!-- Renderizado via app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. TELA DE ESTUDO POR MATÉRIA (TREINO TEMÁTICO) -->
+    <section id="view-materias" class="app-view">
+      <div class="view-title-block">
+        <h2>Estudo por Matéria</h2>
+        <p>Selecione uma disciplina para responder questões com resposta e comentário oficial imediato.</p>
+      </div>
+
+      <div class="study-selection-grid" id="study-selection-grid">
+        <!-- Renderizado dinamicamente via app.js -->
+      </div>
+    </section>
+
+    <!-- 6. TELA DO CADERNO DE ERROS -->
+    <section id="view-erros" class="app-view">
+      <div class="view-title-block">
+        <div class="flex-between">
+          <div>
+            <h2>Caderno de Erros</h2>
+            <p>Armazena automaticamente todas as questões que você errou nos simulados para estudo focado.</p>
+          </div>
+          <button class="btn btn-primary" id="btn-train-all-errors">
+            Treinar Todas as Erradas
+          </button>
+        </div>
+      </div>
+
+      <div class="errors-filter-bar">
+        <select id="select-errors-materia" class="form-select">
+          <option value="all">Todas as Matérias</option>
+          <option value="NR-32">NR-32 (Serviços de Saúde)</option>
+          <option value="NR-01">NR-01 (PGR)</option>
+          <option value="NR-06">NR-06 (EPI)</option>
+          <option value="NR-07">NR-07 (PCMSO)</option>
+          <option value="NR-15">NR-15 (Insalubridade)</option>
+          <option value="NR-17">NR-17 (Ergonomia)</option>
+          <option value="Legislação SUS">Legislação SUS</option>
+          <option value="Resíduos de Saúde (RDC 222)">Resíduos de Saúde (RDC 222)</option>
+          <option value="Legislação Previdenciária">Legislação Previdenciária</option>
+          <option value="Português">Português</option>
+        </select>
+        <button class="btn btn-outline btn-sm" id="btn-clear-all-errors" title="Limpar todo o caderno de erros">
+          Limpar Caderno
+        </button>
+      </div>
+
+      <div class="errors-list" id="errors-questions-container">
+        <!-- Renderizado dinamicamente via app.js -->
+      </div>
+    </section>
+
+    <!-- 7. TELA DE DESEMPENHO E ESTATÍSTICAS GLOBAIS -->
+    <section id="view-desempenho" class="app-view">
+      <div class="view-title-block">
+        <h2>Diagnóstico de Desempenho</h2>
+        <p>Acompanhe seu avanço em cada disciplina e confira o histórico detalhado dos simulados.</p>
+      </div>
+
+      <div class="performance-cards-grid">
+        <div class="perf-card">
+          <span class="perf-title">Total de Resoluções</span>
+          <h3 class="perf-number" id="perf-total-attempts">0</h3>
+          <span class="perf-detail">Tentativas acumuladas</span>
+        </div>
+        <div class="perf-card">
+          <span class="perf-title">Taxa Geral de Acertos</span>
+          <h3 class="perf-number text-teal" id="perf-global-rate">0%</h3>
+          <span class="perf-detail" id="perf-ratio-detail">0 acertos / 0 erros</span>
+        </div>
+        <div class="perf-card">
+          <span class="perf-title">Matéria Mais Forte</span>
+          <h3 class="perf-subject text-green" id="perf-best-subject">-</h3>
+          <span class="perf-detail" id="perf-best-rate">Maior taxa de acerto</span>
+        </div>
+        <div class="perf-card">
+          <span class="perf-title">Matéria para Atenção</span>
+          <h3 class="perf-subject text-orange" id="perf-worst-subject">-</h3>
+          <span class="perf-detail" id="perf-worst-rate">Menor aproveitamento</span>
+        </div>
+      </div>
+
+      <!-- Aproveitamento por Matéria com Barras Proporcionais -->
+      <div class="section-card">
+        <h3>Aproveitamento por Disciplina do Edital</h3>
+        <p class="section-sub">Percentual de acerto calculado sobre as questões respondidas em cada matéria</p>
+        <div class="subject-progress-bars" id="perf-subjects-bars">
+          <!-- Renderizado via app.js -->
+        </div>
+      </div>
+
+      <!-- Histórico de Simulados Realizados -->
+      <div class="section-card">
+        <div class="flex-between">
+          <div>
+            <h3>Histórico de Simulados</h3>
+            <p class="section-sub">Registro cronológico de todas as provas finalizadas</p>
+          </div>
+          <button class="btn btn-outline btn-sm" id="btn-reset-stats" title="Zerar histórico de estudos">
+            Resetar Histórico
+          </button>
+        </div>
+
+        <div class="exam-history-list" id="perf-exams-history">
+          <!-- Renderizado via app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. TELA DE BUSCA DE QUESTÕES -->
+    <section id="view-busca" class="app-view">
+      <div class="view-title-block">
+        <h2>Buscador de Questões</h2>
+        <p>Pesquise palavras-chave, artigos de lei ou temas específicos no acervo de 200 questões.</p>
+      </div>
+
+      <div class="search-bar-wrapper">
+        <div class="search-input-box">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="search-input" placeholder="Ex: perfurocortantes, quimioterápicos, PGR, CAT, crase, RDC 222..." autocomplete="off">
+          <button class="btn-clear-search" id="btn-clear-search" style="display: none;">✕</button>
+        </div>
+
+        <select id="search-materia-filter" class="form-select search-filter-select">
+          <option value="all">Todas as Matérias</option>
+          <option value="NR-32">NR-32</option>
+          <option value="NR-01">NR-01</option>
+          <option value="NR-06">NR-06</option>
+          <option value="NR-07">NR-07</option>
+          <option value="NR-15">NR-15</option>
+          <option value="NR-17">NR-17</option>
+          <option value="Legislação SUS">Legislação SUS</option>
+          <option value="Resíduos de Saúde (RDC 222)">Resíduos de Saúde</option>
+          <option value="Legislação Previdenciária">Legislação Previdenciária</option>
+          <option value="Português">Português</option>
+        </select>
+      </div>
+
+      <div class="search-meta-count" id="search-results-counter">
+        Exibindo 200 questões do banco de dados
+      </div>
+
+      <div class="search-results-list" id="search-results-container">
+        <!-- Renderizado dinamicamente via app.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: CARTÃO DE RESPOSTAS DO SIMULADO -->
+  <div class="modal-backdrop" id="modal-answer-card" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3>Cartão de Respostas</h3>
+        <button class="btn-close-modal" id="btn-close-card-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-sub">Clique em qualquer número para ir direto à questão:</p>
+        
+        <div class="card-legend">
+          <span class="legend-item"><span class="legend-box answered"></span> Respondida</span>
+          <span class="legend-item"><span class="legend-box flagged"></span> Dúvida / Revisar</span>
+          <span class="legend-item"><span class="legend-box pending"></span> Não respondida</span>
+        </div>
+
+        <div class="answer-card-grid" id="answer-card-grid">
+          <!-- Renderizado via app.js (ex: 50 botões) -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-block" id="btn-modal-close-action">Voltar à Prova</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CONFIRMAÇÃO DE FINALIZAÇÃO -->
+  <div class="modal-backdrop" id="modal-confirm-finish" style="display: none;">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-header">
+        <h3>Finalizar Simulado?</h3>
+        <button class="btn-close-modal" id="btn-close-confirm-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <p id="confirm-finish-msg">Você respondeu <strong>45 de 50</strong> questões. Tem certeza que deseja entregar o cartão de respostas e ver o resultado?</p>
+      </div>
+      <div class="modal-footer flex-row">
+        <button class="btn btn-outline" id="btn-cancel-finish">Revisar Mais</button>
+        <button class="btn btn-success" id="btn-confirm-finish">Entregar e Ver Nota</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS DA APLICAÇÃO (Caminhos Relativos Conforme Especificação) -->
+  <script src="./questions.js"></script>
+  <script src="./app.js"></script>
+
+</body>
+</html>
